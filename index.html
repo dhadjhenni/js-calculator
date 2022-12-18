@@ -71,30 +71,30 @@
         let opValue = '';
 
         function operate(x, y, z){
-            //console.log('Operating : ' + x + ' ' + y + ' ' +z);
+            console.log('Operating : ' + x + ' ' + y + ' ' +z);
 
             switch (y) {
                 case "+":
                     console.log('sum');
-                    let sum = parseInt(x) + parseInt(z);
+                    let sum = parseFloat(x) + parseFloat(z);
                     display.innerHTML = sum;
                     break;
 
                 case "x":
                     console.log('multiply');
-                    let multiply = parseInt(x) * parseInt(z);
+                    let multiply = parseFloat(x) * parseFloat(z);
                     display.innerHTML = multiply;
                     break;
 
                 case "-":
                     console.log('sub');
-                    let sub = parseInt(x) - parseInt(z);
+                    let sub = parseFloat(x) - parseFloat(z);
                     display.innerHTML = sub;
                     break;
 
                 case "/":
                     console.log('divide');
-                    let divide = parseInt(x) / parseInt(z);
+                    let divide = parseFloat(x) / parseFloat(z);
                     display.innerHTML = divide;
                     break;
             }
@@ -109,6 +109,7 @@
 
         deleteBtn.addEventListener('click', function(){
             console.log('delete');
+            alert('Not working yet');
         });
 
         nbBtn.forEach(nb => nb.addEventListener('click', function(){
@@ -116,24 +117,22 @@
                 display.innerHTML = '';
                 keyValue += this.innerHTML;
                 display.innerHTML = keyValue;
-            } else if(opValue != '' && keyValue2 != '') {
-                keyValue2 = '';
-                display.innerHTML = '';
-                keyValue2 += this.innerHTML;
-                display.innerHTML = keyValue2;
+                //console.log('1');
             } else {
                 keyValue2 += this.innerHTML;
                 display.innerHTML = keyValue2;
+                //console.log('3')
             }
         }));
 
         opBtn.forEach(op => op.addEventListener('click', function(){
 
             if (opValue != '' && keyValue != '' && keyValue2 != '') {
-                //console.log('2nd opé')
+                // 2nd Opé 
                 operate(keyValue, opValue, keyValue2);
                 opValue = this.innerHTML;
                 keyValue = display.innerHTML;
+                keyValue2 = '';
             } else {
                 opValue = this.innerHTML;
             }
@@ -141,7 +140,6 @@
         }));
 
         totalBtn.addEventListener('click', function(){
-            //console.log('Total');
             operate(keyValue, opValue, keyValue2);
             keyValue = display.innerHTML;
             opValue = '';
