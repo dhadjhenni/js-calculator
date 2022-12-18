@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html class="noJS" lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+
+    <title>JS Calculator</title>
+
+    <script>
+        const hasJS = function() {
+            const htmlTag = document.getElementsByTagName('html')[0];
+            const htmlClass = htmlTag.className.replace('noJS', 'hasJS');
+            htmlTag.className = htmlClass;
+        }();
+    </script>
+</head>
+<body>
+    <!-- START : content -->
+    <div id="content">
+
+        <header>
+            <h1>JS Calculator</h1>
+        </header>
+
+        <div id="calculator">
+            <div class="display">
+                <p>0</p>
+            </div>
+            <div class="pad">
+                <button class="btn btn-action" id="clear">Clear</button>
+                <button class="btn btn-action" id="delete">Delete</button>
+
+                <button class="btn" data-type="number">7</button>
+                <button class="btn" data-type="number">8</button>
+                <button class="btn" data-type="number">9</button>
+                <button class="btn" data-type="operator">/</button>
+                <button class="btn" data-type="number">4</button>
+                <button class="btn" data-type="number">5</button>
+                <button class="btn" data-type="number">6</button>
+                <button class="btn" data-type="operator">x</button>
+                <button class="btn" data-type="number">1</button>
+                <button class="btn" data-type="number">2</button>
+                <button class="btn" data-type="number">3</button>
+                <button class="btn" data-type="operator">-</button>
+                <button class="btn" data-type="number">.</button>
+                <button class="btn" data-type="number">0</button>
+                <button class="btn" data-type="total">=</button>
+                <button class="btn" data-type="operator">+</button>
+
+            </div>
+        </div>
+    </div>
+    <!-- END : content -->
+
+    <!-- START : scripts -->
+    <script>    
+
+        const calculator = document.getElementById('calculator');
+        const nbBtn = document.querySelectorAll('.btn[data-type="number"]');
+        const opBtn = document.querySelectorAll('.btn[data-type="operator"]');
+        const totalBtn = document.querySelector('.btn[data-type="total"]');
+        const display = document.querySelector('.display p');
+        const clearBtn = document.querySelector('#clear');
+        const deleteBtn = document.querySelector('#delete');
+
+        let keyValue = '';
+        let keyValue2 = '';
+        let opValue = '';
+
+        function operate(x, y, z){
+            //console.log('Operating : ' + x + ' ' + y + ' ' +z);
+
+            switch (y) {
+                case "+":
+                    console.log('sum');
+                    let sum = parseInt(x) + parseInt(z);
+                    display.innerHTML = sum;
+                    break;
+
+                case "x":
+                    console.log('multiply');
+                    let multiply = parseInt(x) * parseInt(z);
+                    display.innerHTML = multiply;
+                    break;
+
+                case "-":
+                    console.log('sub');
+                    let sub = parseInt(x) - parseInt(z);
+                    display.innerHTML = sub;
+                    break;
+
+                case "/":
+                    console.log('divide');
+                    let divide = parseInt(x) / parseInt(z);
+                    display.innerHTML = divide;
+                    break;
+            }
+        }
+
+        clearBtn.addEventListener('click', function(){
+            display.innerHTML = '0';
+            keyValue = '';
+            keyValue2 = '';
+            opValue = '';
+        });
+
+        deleteBtn.addEventListener('click', function(){
+            console.log('delete');
+        });
+
+        nbBtn.forEach(nb => nb.addEventListener('click', function(){
+            if (opValue == '') {
+                display.innerHTML = '';
+                keyValue += this.innerHTML;
+                display.innerHTML = keyValue;
+            } else if(opValue != '' && keyValue2 != '') {
+                keyValue2 = '';
+                display.innerHTML = '';
+                keyValue2 += this.innerHTML;
+                display.innerHTML = keyValue2;
+            } else {
+                keyValue2 += this.innerHTML;
+                display.innerHTML = keyValue2;
+            }
+        }));
+
+        opBtn.forEach(op => op.addEventListener('click', function(){
+
+            if (opValue != '' && keyValue != '' && keyValue2 != '') {
+                //console.log('2nd opé')
+                operate(keyValue, opValue, keyValue2);
+                opValue = this.innerHTML;
+                keyValue = display.innerHTML;
+            } else {
+                opValue = this.innerHTML;
+            }
+            
+        }));
+
+        totalBtn.addEventListener('click', function(){
+            //console.log('Total');
+            operate(keyValue, opValue, keyValue2);
+            keyValue = display.innerHTML;
+            opValue = '';
+            keyValue2 = '';
+        });
+
+
+
+
+    </script>
+</body>
+</html>
