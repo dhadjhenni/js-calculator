@@ -2,25 +2,25 @@
 <html class="noJS" lang="fr">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
 
     <title>JS Calculator</title>
 
     <script>
-        const hasJS = function() {
+        const hasJS = (function () {
             const htmlTag = document.getElementsByTagName('html')[0];
             const htmlClass = htmlTag.className.replace('noJS', 'hasJS');
             htmlTag.className = htmlClass;
-        }();
+        })();
     </script>
 </head>
+
 <body>
     <!-- START : content -->
     <div id="content">
-
         <header>
             <h1>JS Calculator</h1>
         </header>
@@ -37,7 +37,7 @@
                 <button class="btn" data-type="number">8</button>
                 <button class="btn" data-type="number">9</button>
                 <button class="btn" data-type="operator">/</button>
-                <button class="btn" data-type="number">4</button>
+                <button class="btn new" data-type="number">4</button>
                 <button class="btn" data-type="number">5</button>
                 <button class="btn" data-type="number">6</button>
                 <button class="btn" data-type="operator">x</button>
@@ -49,15 +49,13 @@
                 <button class="btn" data-type="number">0</button>
                 <button class="btn" data-type="total">=</button>
                 <button class="btn" data-type="operator">+</button>
-
             </div>
         </div>
     </div>
     <!-- END : content -->
 
     <!-- START : scripts -->
-    <script>    
-
+    <script>
         const calculator = document.getElementById('calculator');
         const nbBtn = document.querySelectorAll('.btn[data-type="number"]');
         const opBtn = document.querySelectorAll('.btn[data-type="operator"]');
@@ -70,29 +68,29 @@
         let keyValue2 = '';
         let opValue = '';
 
-        function operate(x, y, z){
-            console.log('Operating : ' + x + ' ' + y + ' ' +z);
+        function operate(x, y, z) {
+            console.log('Operating : ' + x + ' ' + y + ' ' + z);
 
             switch (y) {
-                case "+":
+                case '+':
                     console.log('sum');
                     let sum = parseFloat(x) + parseFloat(z);
                     display.innerHTML = sum;
                     break;
 
-                case "x":
+                case 'x':
                     console.log('multiply');
                     let multiply = parseFloat(x) * parseFloat(z);
                     display.innerHTML = multiply;
                     break;
 
-                case "-":
+                case '-':
                     console.log('sub');
                     let sub = parseFloat(x) - parseFloat(z);
                     display.innerHTML = sub;
                     break;
 
-                case "/":
+                case '/':
                     console.log('divide');
                     let divide = parseFloat(x) / parseFloat(z);
                     display.innerHTML = divide;
@@ -100,55 +98,54 @@
             }
         }
 
-        clearBtn.addEventListener('click', function(){
+        clearBtn.addEventListener('click', function () {
             display.innerHTML = '0';
             keyValue = '';
             keyValue2 = '';
             opValue = '';
         });
 
-        deleteBtn.addEventListener('click', function(){
+        deleteBtn.addEventListener('click', function () {
             console.log('delete');
             alert('Not working yet');
         });
 
-        nbBtn.forEach(nb => nb.addEventListener('click', function(){
-            if (opValue == '') {
-                display.innerHTML = '';
-                keyValue += this.innerHTML;
-                display.innerHTML = keyValue;
-                //console.log('1');
-            } else {
-                keyValue2 += this.innerHTML;
-                display.innerHTML = keyValue2;
-                //console.log('3')
-            }
-        }));
+        nbBtn.forEach((nb) =>
+            nb.addEventListener('click', function () {
+                if (opValue == '') {
+                    display.innerHTML = '';
+                    keyValue += this.innerHTML;
+                    display.innerHTML = keyValue;
+                    //console.log('1');
+                } else {
+                    keyValue2 += this.innerHTML;
+                    display.innerHTML = keyValue2;
+                    //console.log('3')
+                }
+            })
+        );
 
-        opBtn.forEach(op => op.addEventListener('click', function(){
+        opBtn.forEach((op) =>
+            op.addEventListener('click', function () {
+                if (opValue != '' && keyValue != '' && keyValue2 != '') {
+                    // 2nd Opé
+                    operate(keyValue, opValue, keyValue2);
+                    opValue = this.innerHTML;
+                    keyValue = display.innerHTML;
+                    keyValue2 = '';
+                } else {
+                    opValue = this.innerHTML;
+                }
+            })
+        );
 
-            if (opValue != '' && keyValue != '' && keyValue2 != '') {
-                // 2nd Opé 
-                operate(keyValue, opValue, keyValue2);
-                opValue = this.innerHTML;
-                keyValue = display.innerHTML;
-                keyValue2 = '';
-            } else {
-                opValue = this.innerHTML;
-            }
-            
-        }));
-
-        totalBtn.addEventListener('click', function(){
+        totalBtn.addEventListener('click', function () {
             operate(keyValue, opValue, keyValue2);
             keyValue = display.innerHTML;
             opValue = '';
             keyValue2 = '';
         });
-
-
-
-
     </script>
 </body>
+
 </html>
